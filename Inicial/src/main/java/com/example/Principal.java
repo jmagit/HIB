@@ -64,10 +64,10 @@ public class Principal {
 		if(profesor == null)
 			System.out.println("No existe el profesor");
 		else {
+			session.save(new Profesor(4, "Pablo", "Marmol", 99));
 			profesor = session.get(Profesor.class, 1);
 			profesor.setApellidos(profesor.getApellidos().toUpperCase());
 			session.delete(new Profesor(3));
-			session.save(new Profesor(4, "Pablo", "Marmol", 99));
 		}
 		session.getTransaction().commit();
 		session.close();

@@ -15,7 +15,7 @@ public class Profesor {
 	private int id;
 	@Column(name = "nom")
 	private String nombre;
-	@Column(name = "apell")
+	@Column(name = "ape")
 	private String apellidos;
 	private int edad;
 	

@@ -1,8 +1,21 @@
 package com.example.entities;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "Profesores")
 public class Profesor {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
+	@Column(name = "nom")
 	private String nombre;
+	@Column(name = "apell")
 	private String apellidos;
 	private int edad;
 	

@@ -2,6 +2,9 @@ package com.example.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.UpdateTimestamp;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -27,6 +30,7 @@ public class Actor implements Serializable {
 	private String lastName;
 
 	@Column(name="last_update")
+	@UpdateTimestamp()
 	private Timestamp lastUpdate;
 
 	//bi-directional many-to-one association to FilmActor
@@ -34,6 +38,13 @@ public class Actor implements Serializable {
 	private List<FilmActor> filmActors;
 
 	public Actor() {
+	}
+
+	public Actor(int actorId, String firstName, String lastName, Timestamp lastUpdate) {
+		this.actorId = actorId;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.lastUpdate = lastUpdate;
 	}
 
 	public int getActorId() {

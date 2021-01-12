@@ -18,7 +18,7 @@ public class Staff implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="staff_id")
-	private byte staffId;
+	private int staffId;
 
 	private byte active;
 
@@ -33,12 +33,11 @@ public class Staff implements Serializable {
 	@Column(name="last_update")
 	private Timestamp lastUpdate;
 
-	private String password;
-
+	@Embedded
+	private Usuario usuario;
+	
 	@Lob
 	private byte[] picture;
-
-	private String username;
 
 	//bi-directional many-to-one association to Payment
 	@OneToMany(mappedBy="staff")
@@ -65,11 +64,11 @@ public class Staff implements Serializable {
 	public Staff() {
 	}
 
-	public byte getStaffId() {
+	public int getStaffId() {
 		return this.staffId;
 	}
 
-	public void setStaffId(byte staffId) {
+	public void setStaffId(int staffId) {
 		this.staffId = staffId;
 	}
 
@@ -113,14 +112,6 @@ public class Staff implements Serializable {
 		this.lastUpdate = lastUpdate;
 	}
 
-	public String getPassword() {
-		return this.password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
 	public byte[] getPicture() {
 		return this.picture;
 	}
@@ -129,12 +120,12 @@ public class Staff implements Serializable {
 		this.picture = picture;
 	}
 
-	public String getUsername() {
-		return this.username;
+	public Usuario getUsuario() {
+		return this.usuario;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setUsername(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public List<Payment> getPayments() {

@@ -2,6 +2,10 @@ package com.example.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import com.example.types.ParentalGuidance;
+import com.example.util.ParentalGuidanceConverter;
+
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.util.List;
@@ -22,6 +26,7 @@ public class Film implements Serializable {
 	private int filmId;
 
 	@Lob
+	@Basic(fetch = FetchType.LAZY)
 	private String description;
 
 	@Column(name="last_update")
@@ -29,7 +34,8 @@ public class Film implements Serializable {
 
 	private Integer length;
 
-	private String rating;
+	@Convert(converter = ParentalGuidanceConverter.class)
+	private ParentalGuidance rating;
 
 	@Column(name="release_year")
 	private Short releaseYear;
@@ -105,11 +111,11 @@ public class Film implements Serializable {
 		this.length = length;
 	}
 
-	public String getRating() {
+	public ParentalGuidance getRating() {
 		return this.rating;
 	}
 
-	public void setRating(String rating) {
+	public void setRating(ParentalGuidance rating) {
 		this.rating = rating;
 	}
 

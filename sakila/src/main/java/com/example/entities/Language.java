@@ -2,6 +2,9 @@ package com.example.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
+
+import org.hibernate.annotations.Immutable;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -12,13 +15,13 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Language.findAll", query="SELECT l FROM Language l")
+@Immutable
 public class Language implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name="language_id")
-	private byte languageId;
+	private int languageId;
 
 	@Column(name="last_update")
 	private Timestamp lastUpdate;
@@ -36,11 +39,11 @@ public class Language implements Serializable {
 	public Language() {
 	}
 
-	public byte getLanguageId() {
+	public int getLanguageId() {
 		return this.languageId;
 	}
 
-	public void setLanguageId(byte languageId) {
+	public void setLanguageId(int languageId) {
 		this.languageId = languageId;
 	}
 

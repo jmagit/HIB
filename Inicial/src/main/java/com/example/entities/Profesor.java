@@ -17,7 +17,7 @@ public class Profesor {
 	private String nombre;
 	@Column(name = "ape")
 	private String apellidos;
-	private int edad;
+	private Integer edad;
 	
 	public Profesor() { }
 	public Profesor(int id) {

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="JPA_PU" transaction-type="RESOURCE_LOCAL">
+		<class>com.example.entities.Actor</class>
+		<class>com.example.entities.Address</class>
+		<class>com.example.entities.Category</class>
+		<class>com.example.entities.City</class>
+		<class>com.example.entities.Country</class>
+		<class>com.example.entities.Customer</class>
+		<class>com.example.entities.Film</class>
+		<class>com.example.entities.FilmActor</class>
+		<class>com.example.entities.FilmActorPK</class>
+		<class>com.example.entities.FilmCategory</class>
+		<class>com.example.entities.FilmCategoryPK</class>
+		<class>com.example.entities.FilmText</class>
+		<class>com.example.entities.Inventory</class>
+		<class>com.example.entities.Language</class>
+		<class>com.example.entities.Payment</class>
+		<class>com.example.entities.Rental</class>
+		<class>com.example.entities.Staff</class>
+		<class>com.example.entities.Store</class>
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/sakila"/>
+			<property name="javax.persistence.jdbc.user" value="root"/>
+			<property name="javax.persistence.jdbc.password" value="root"/>
+			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+			<property name="hibernate.show_sql" value="true" />
+		</properties>
+		
+	</persistence-unit>
+</persistence>

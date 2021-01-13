@@ -8,13 +8,14 @@
 	<properties>
 		<maven.compiler.source>11</maven.compiler.source>
 		<maven.compiler.target>11</maven.compiler.target>
+		<hibernate.version>5.4.27.Final</hibernate.version>
 	</properties>
 
 	<dependencies>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-agroal</artifactId>
-			<version>5.4.27.Final</version>
+			<version>${hibernate.version}</version>
 			<type>pom</type>
 		</dependency>
 		<dependency>
@@ -23,4 +24,27 @@
 			<version>5.1.43</version>
 		</dependency>
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.hibernate.orm.tooling</groupId>
+				<artifactId>hibernate-enhance-maven-plugin</artifactId>
+				<version>${hibernate.version}</version>
+				<executions>
+					<execution>
+						<configuration>
+							<failOnError>true</failOnError>
+							<enableLazyInitialization>true</enableLazyInitialization>
+							<enableDirtyTracking>false</enableDirtyTracking>
+							<enableAssociationManagement>false</enableAssociationManagement>
+						</configuration>
+						<goals>
+							<goal>enhance</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

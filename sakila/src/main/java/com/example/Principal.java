@@ -35,17 +35,17 @@ public class Principal {
 //		System.out.println(peli.getRating());
 //		em.getTransaction().commit();
 //		em.close();
-//		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
-//		var peli = em.find(Film.class, 1);
-//		System.out.println(peli.getFilmId());
-//		System.out.println(peli.getTitle());
-//		System.out.println(peli.getDescription());
-//		em.close();
 		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
-		var emp = em.find(Staff.class, 1);
-		System.out.println(emp.getUsuario().getUsername());
-		System.out.println(emp.getFirstName());
+		var peli = em.find(Film.class, 1);
+		System.out.println(peli.getFilmId());
+		System.out.println(peli.getTitle());
+		System.out.println(peli.getDescription());
 		em.close();
+//		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+//		var emp = em.find(Staff.class, 1);
+//		System.out.println(emp.getUsuario().getUsername());
+//		System.out.println(emp.getFirstName());
+//		em.close();
 
 	}
 

@@ -35,7 +35,7 @@
 					<execution>
 						<configuration>
 							<failOnError>true</failOnError>
-							<enableLazyInitialization>true</enableLazyInitialization>
+							<enableLazyInitialization>false</enableLazyInitialization>
 							<enableDirtyTracking>false</enableDirtyTracking>
 							<enableAssociationManagement>false</enableAssociationManagement>
 						</configuration>

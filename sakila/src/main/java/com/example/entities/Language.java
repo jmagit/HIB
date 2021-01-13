@@ -3,7 +3,12 @@ package com.example.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.Immutable;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -15,7 +20,9 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Language.findAll", query="SELECT l FROM Language l")
-@Immutable
+//@Immutable
+@DynamicUpdate
+//@OptimisticLocking(type = OptimisticLockType.ALL)
 public class Language implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -24,8 +31,11 @@ public class Language implements Serializable {
 	private int languageId;
 
 	@Column(name="last_update")
+//	@Version
+//	@Generated(GenerationTime.ALWAYS)
 	private Timestamp lastUpdate;
 
+	@Column(nullable = false)
 	private String name;
 
 	//bi-directional many-to-one association to Film
@@ -37,6 +47,12 @@ public class Language implements Serializable {
 	private List<Film> filmsVO;
 
 	public Language() {
+	}
+
+	public Language(int languageId, String name, Timestamp lastUpdate) {
+		this.languageId = languageId;
+		this.name = name;
+		this.lastUpdate = lastUpdate;
 	}
 
 	public int getLanguageId() {

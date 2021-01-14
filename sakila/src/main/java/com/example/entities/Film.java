@@ -3,6 +3,9 @@ package com.example.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import com.example.types.ParentalGuidance;
 import com.example.util.ParentalGuidanceConverter;
 
@@ -65,7 +68,8 @@ public class Film implements Serializable {
 	private Language languageVO;
 
 	//bi-directional many-to-one association to FilmActor
-	@OneToMany(mappedBy="film")
+	@OneToMany(mappedBy="film", fetch = FetchType.EAGER)
+	//@Fetch(FetchMode.SUBSELECT)
 	private List<FilmActor> filmActors;
 
 	//bi-directional many-to-one association to FilmCategory
@@ -75,6 +79,20 @@ public class Film implements Serializable {
 	//bi-directional many-to-one association to Inventory
 	@OneToMany(mappedBy="film")
 	private List<Inventory> inventories;
+
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "rodaje",
+		joinColumns = @JoinColumn(name = "film_id"),
+		inverseJoinColumns = @JoinColumn(name = "city_id"))
+	private List<City> ciudad;
+	
+	public List<City> getCiudades() {
+		return ciudad;
+	}
+
+	public void setCiudades(List<City> ciudad) {
+		this.ciudad = ciudad;
+	}
 
 	public Film() {
 	}
@@ -247,6 +265,28 @@ public class Film implements Serializable {
 		inventory.setFilm(null);
 
 		return inventory;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + filmId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Film other = (Film) obj;
+		if (filmId != other.filmId)
+			return false;
+		return true;
 	}
 
 }

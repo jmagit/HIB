@@ -10,6 +10,9 @@ import org.hibernate.annotations.Immutable;
 import org.hibernate.annotations.OptimisticLockType;
 import org.hibernate.annotations.OptimisticLocking;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -23,7 +26,7 @@ import java.util.List;
 //@Immutable
 @DynamicUpdate
 //@OptimisticLocking(type = OptimisticLockType.ALL)
-public class Language implements Serializable {
+public class Language extends EntityBase<Actor> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -35,7 +38,9 @@ public class Language implements Serializable {
 //	@Generated(GenerationTime.ALWAYS)
 	private Timestamp lastUpdate;
 
-	@Column(nullable = false)
+	@NotBlank
+	@Pattern(regexp = "^[A-Z ]*$")
+//	@Column(nullable = false)
 	private String name;
 
 	//bi-directional many-to-one association to Film

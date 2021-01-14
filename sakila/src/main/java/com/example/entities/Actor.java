@@ -15,7 +15,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Actor.findAll", query="SELECT a FROM Actor a")
-public class Actor implements Serializable {
+public class Actor extends EntityBase<Actor> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

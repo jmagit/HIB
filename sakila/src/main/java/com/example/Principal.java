@@ -9,6 +9,8 @@ import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 
 import com.example.entities.Actor;
+import com.example.entities.City;
+import com.example.entities.Country;
 import com.example.entities.Film;
 import com.example.entities.Language;
 import com.example.entities.Staff;
@@ -17,6 +19,75 @@ import com.example.types.ParentalGuidance;
 public class Principal {
 
 	public static void main(String[] args) {
+		//relacionesOneToOne();
+		// relacionesManyToMany();
+		recuperacion();
+	}
+	public static void recuperacion() {
+		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+		var f = em.find(Film.class, 3);
+		System.out.println("---------");
+//		f.getFilmActors().stream().map(item -> item.getActor()).forEach(item -> System.out.println(item));
+//		em.createQuery("from Film f where f.filmId < 10", Film.class).getResultStream()
+//			.forEach(f -> f.getFilmActors().stream().map(item -> item.getActor()).forEach(item -> System.out.println(item)));
+		em.close();
+		f.getFilmActors().stream().map(item -> item.getActor()).forEach(item -> System.out.println(item));
+	}
+	public static void relacionesManyToMany() {
+		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+
+		// var c = new City(7791, "Barcelona", em.getReference(Country.class, 113));
+		
+		em.getTransaction().begin();
+		City c = em.find(City.class, 7791);
+		// var kk = c.getPeliculas();
+		em.getTransaction().commit();
+		em.close();
+		em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+		em.getTransaction().begin();
+
+//		c.getPeliculas().add(em.find(Film.class, 3));
+//		c.setCity("BARCELONA");
+		//c.setCity("Barcelona");
+//		c.getPeliculas().add(em.find(Film.class, 33));
+//		var c = em.find(City.class, 7791);
+		
+		em.merge(c);
+		c.getPeliculas().add(em.find(Film.class, 44));
+//		var c = em.find(City.class, 7791);
+//		c.setCity("BARCELONA");
+//		var p = em.find(Film.class, 11);
+//		//c.getPeliculas().remove(0);
+//		c.getPeliculas().add(p);
+//		// p.getCiudades().add(c);
+//		c.getPeliculas().add(em.find(Film.class, 3));
+		em.getTransaction().commit();
+		em.close();
+		System.out.println("FIN");
+	}
+	public static void relacionesOneToOne() {
+		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+		em.getTransaction().begin();
+//		var p = new Country(0, "Cataluña");
+//		var c = new City(0, "Barcelona");
+////		p.getCities().add(c);
+////		c.setCountry(em.find(Country.class, 1));
+//		p.addCity(c);
+//		p.addCity(new City(0, "Lleida", em.find(Country.class, 1)));
+//		em.persist(p);
+
+//		var p = em.find(Country.class, 113);
+//		p.getCities().add(new City(0, "Tarragona", em.find(Country.class, 1)));
+//		System.out.println(p.getCities().getClass().getName());
+//		var p = em.find(Country.class, 113);
+//		p.getCities().get(0).setCity("dddd");
+		var c = new City(0, "Girona", new Country(0, "Cataluñaaaa"));
+		em.persist(c);
+		em.getTransaction().commit();
+		em.close();
+		System.out.println("FIN");
+	}
+	public static void ejemplos() {
 //		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
 ////		em.createQuery("from Actor").getResultStream()
 ////			.forEach(item -> System.out.println(item));
@@ -66,26 +137,42 @@ public class Principal {
 //		System.out.println(emp.getFirstName());
 //		em.close();
 
-		EntityManager em1 = HibernateUtil.getEntityManagerFactory().createEntityManager();
-		EntityManager em2 = HibernateUtil.getEntityManagerFactory().createEntityManager();
-		em1.getTransaction().begin();
-		em2.getTransaction().begin();
-		var idioma1 = em1.find(Language.class, 8, LockModeType.PESSIMISTIC_READ);
-		var idioma2 = em2.find(Language.class, 8);
-		idioma1.setName("Hungaro");
-		em1.getTransaction().commit();
-		System.out.println("OK1");
-		em1.close();
-		try {
-			idioma2.setName(idioma2.getName() + "X");
-			em2.getTransaction().commit();
-			System.out.println("OK2");
-		} catch (Exception e) {
-			System.out.println("ERROR: " + e.toString());
-			em2.getTransaction().rollback();
-		} finally {
-			em2.close();
-		}
+//		EntityManager em1 = HibernateUtil.getEntityManagerFactory().createEntityManager();
+//		EntityManager em2 = HibernateUtil.getEntityManagerFactory().createEntityManager();
+//		em1.getTransaction().begin();
+//		em2.getTransaction().begin();
+//		var idioma1 = em1.find(Language.class, 8, LockModeType.PESSIMISTIC_READ);
+//		var idioma2 = em2.find(Language.class, 8);
+//		idioma1.setName("Hungaro");
+//		em1.getTransaction().commit();
+//		System.out.println("OK1");
+//		em1.close();
+//		try {
+//			idioma2.setName(idioma2.getName() + "X");
+//			em2.getTransaction().commit();
+//			System.out.println("OK2");
+//		} catch (Exception e) {
+//			System.out.println("ERROR: " + e.toString());
+//			em2.getTransaction().rollback();
+//		} finally {
+//			em2.close();
+//		}
+		var i = new Language(0, null, null);
+		System.err.println(i.isValid() ? "valido" : "invalido");
+		i.getErrors().stream().forEach(item -> System.out.println(item.getMessage()));
+		i.setName("");
+		System.err.println(i.isValid() ? "valido" : "invalido");
+		i.getErrors().stream().forEach(item -> System.out.println(item.getMessage()));
+		i.setName("   ");
+		System.err.println(i.isValid() ? "valido" : "invalido");
+		i.getErrors().stream().forEach(item -> System.out.println(item.getMessage()));
+		i.setName("algo");
+		System.err.println(i.isValid() ? "valido" : "invalido");
+		i.getErrors().stream().forEach(item -> System.out.println(item.getMessage()));
+		i.setName("ALGO");
+		System.err.println(i.isValid() ? "valido" : "invalido");
+		i.getErrors().stream().forEach(item -> System.out.println(item.getMessage()));
+		
 		System.out.println("FIN");
 	}
 

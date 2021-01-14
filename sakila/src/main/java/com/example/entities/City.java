@@ -30,11 +30,38 @@ public class City implements Serializable {
 	private List<Address> addresses;
 
 	//bi-directional many-to-one association to Country
-	@ManyToOne
+	@ManyToOne()
 	@JoinColumn(name="country_id")
 	private Country country;
 
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "rodaje",
+		joinColumns = @JoinColumn(name = "city_id"),
+		inverseJoinColumns = @JoinColumn(name = "film_id"))
+	private List<Film> peliculas;
+	
+	public List<Film> getPeliculas() {
+		return peliculas;
+	}
+
+	public void setPeliculas(List<Film> peliculas) {
+		this.peliculas = peliculas;
+	}
+
 	public City() {
+	}
+
+	public City(int cityId, String city) {
+		super();
+		this.cityId = cityId;
+		this.city = city;
+	}
+
+	public City(int cityId, String city, Country country) {
+		super();
+		this.cityId = cityId;
+		this.city = city;
+		this.country = country;
 	}
 
 	public int getCityId() {
@@ -89,6 +116,28 @@ public class City implements Serializable {
 
 	public void setCountry(Country country) {
 		this.country = country;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + cityId;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		City other = (City) obj;
+		if (cityId != other.cityId)
+			return false;
+		return true;
 	}
 
 }

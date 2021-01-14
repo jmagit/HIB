@@ -3,6 +3,7 @@ package com.example.entities;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -26,10 +27,17 @@ public class Country implements Serializable {
 	private Timestamp lastUpdate;
 
 	//bi-directional many-to-one association to City
-	@OneToMany(mappedBy="country")
+	@OneToMany(mappedBy="country", cascade = CascadeType.ALL)
 	private List<City> cities;
 
 	public Country() {
+	}
+
+	public Country(int countryId, String country) {
+		super();
+		this.countryId = countryId;
+		this.country = country;
+		this.cities = new ArrayList<City>();
 	}
 
 	public int getCountryId() {
@@ -62,6 +70,7 @@ public class Country implements Serializable {
 
 	public void setCities(List<City> cities) {
 		this.cities = cities;
+		cities.forEach(item -> item.setCountry(this));
 	}
 
 	public City addCity(City city) {

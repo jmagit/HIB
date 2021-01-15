@@ -53,6 +53,9 @@ public class Language extends EntityBase<Actor> implements Serializable {
 
 	public Language() {
 	}
+	public Language(int languageId) {
+		this.languageId = languageId;
+	}
 
 	public Language(int languageId, String name, Timestamp lastUpdate) {
 		this.languageId = languageId;

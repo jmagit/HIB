@@ -97,6 +97,26 @@ public class Film implements Serializable {
 	public Film() {
 	}
 
+
+	public Film(int filmId) {
+		this.filmId = filmId;
+	}
+
+	public Film(int filmId, String description, int length, ParentalGuidance rating, Short releaseYear, byte rentalDuration,
+			BigDecimal rentalRate, BigDecimal replacementCost, String title, Language language, Language languageVO) {
+		this.filmId = filmId;
+		this.description = description;
+		this.length = length;
+		this.rating = rating;
+		this.releaseYear = releaseYear;
+		this.rentalDuration = rentalDuration;
+		this.rentalRate = rentalRate;
+		this.replacementCost = replacementCost;
+		this.title = title;
+		this.language = language;
+		this.languageVO = languageVO;
+	}
+
 	public int getFilmId() {
 		return this.filmId;
 	}
@@ -215,6 +235,11 @@ public class Film implements Serializable {
 
 		return filmActor;
 	}
+	public FilmActor addFilmActor(Actor actor) {
+		FilmActor filmActor = new FilmActor(this, actor);
+		getFilmActors().add(filmActor);
+		return filmActor;
+	}
 
 	public FilmActor removeFilmActor(FilmActor filmActor) {
 		getFilmActors().remove(filmActor);
@@ -235,6 +260,11 @@ public class Film implements Serializable {
 		getFilmCategories().add(filmCategory);
 		filmCategory.setFilm(this);
 
+		return filmCategory;
+	}
+	public FilmCategory addFilmCategory(Category category) {
+		FilmCategory filmCategory = new FilmCategory(this, category);
+		getFilmCategories().add(filmCategory);
 		return filmCategory;
 	}
 

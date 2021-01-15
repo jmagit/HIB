@@ -14,7 +14,8 @@ import java.util.List;
  * 
  */
 @Entity
-@NamedQuery(name="Actor.findAll", query="SELECT a FROM Actor a")
+@NamedQuery(name="Actor.findAll", query="SELECT a FROM Actor a",
+	hints = {  @QueryHint(name = "org.hibernate.readOnly", value = "true") })
 public class Actor extends EntityBase<Actor> implements Serializable {
 	private static final long serialVersionUID = 1L;
 

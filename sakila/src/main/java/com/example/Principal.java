@@ -3,10 +3,13 @@ package com.example;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
+import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
+import javax.persistence.TypedQuery;
 
 import com.example.entities.Actor;
 import com.example.entities.City;
@@ -14,14 +17,90 @@ import com.example.entities.Country;
 import com.example.entities.Film;
 import com.example.entities.Language;
 import com.example.entities.Staff;
+import com.example.entities.dtos.ActorDTO;
+import com.example.entities.dtos.FilmEditDTO;
 import com.example.types.ParentalGuidance;
+
+import jakarta.validation.Valid;
 
 public class Principal {
 
 	public static void main(String[] args) {
 		//relacionesOneToOne();
 		// relacionesManyToMany();
-		recuperacion();
+		// recuperacion();
+		consultas();
+	}
+	public static void consultas() {
+		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+//		em.createQuery("from Actor a, Language l").getResultStream()
+//			.map(a -> (Object[])a)
+//			.forEach(a -> System.out.println(((Object[])a)[0].toString() + "-" + ((Object[])a)[1].toString()));
+//		em.createQuery("select distinct a from Actor a left join fetch a.filmActors f left join fetch f.film p" /*where f.film.filmId = 1"*/, Actor.class).getResultStream()
+////		.forEach(a -> System.out.println(((Object[])a)[0].toString() + "-" + ((Object[])a)[1].toString()));
+//		.forEach(a -> a.getFilmActors().forEach(System.out::println));
+
+//		em.createQuery("select new com.example.entities.dtos.ActorDTO(a) from Actor a", ActorDTO.class)
+//			.getResultStream().forEach(a -> System.out.println(a.getId() + " -> " + a.getNombre()));
+		em.createQuery("from Actor a", Actor.class)
+			.getResultStream()
+			.map(a-> new ActorDTO(a))
+			.forEach(a -> System.out.println(a.getId() + " -> " + a.getNombre()));
+		em.close();
+	}
+	public void post(@Valid FilmEditDTO send) {
+//		if(FilmEditDTO.from(send).isNotValid()) {
+//			
+//		}
+//		Film p = em.find();
+//		send.update(p);
+		
+	}
+	public static void consultas1() {
+		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+		int np = 7, rows = 20;
+		boolean paginado = true;
+		em.getTransaction().begin();
+		System.out.println("Creo");
+		TypedQuery<Actor> q = em.createNamedQuery("Actor.findAll", Actor.class);
+		System.out.println("Configuro");
+//		q.setHint( "org.hibernate.readOnly", true );
+		if(paginado) {
+			q.setMaxResults(rows);
+			q.setFirstResult(np * rows);
+		}
+		System.out.println("solicito");
+		List<Actor> lst = q.getResultList();
+		System.out.println("proceso");
+		lst.forEach(System.out::println);
+		System.out.println("termino");
+		Actor actor = lst.get(1);
+		actor.setFirstName("kkkkkk");
+		em.getTransaction().commit();
+		em.close();
+	}
+	public static void consultas2() {
+		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();
+		int np = 7, rows = 20;
+		boolean paginado = true;
+		em.getTransaction().begin();
+		System.out.println("Creo");
+		TypedQuery<Actor> q = em.createQuery("select a from Actor a", Actor.class);
+		System.out.println("Configuro");
+		q.setHint( "org.hibernate.readOnly", true );
+		if(paginado) {
+			q.setMaxResults(rows);
+			q.setFirstResult(np * rows);
+		}
+		System.out.println("solicito");
+		List<Actor> lst = q.getResultList();
+		System.out.println("proceso");
+		lst.forEach(System.out::println);
+		System.out.println("termino");
+		Actor actor = lst.get(1);
+		actor.setFirstName("kkkkkk");
+		em.getTransaction().commit();
+		em.close();
 	}
 	public static void recuperacion() {
 		EntityManager em = HibernateUtil.getEntityManagerFactory().createEntityManager();

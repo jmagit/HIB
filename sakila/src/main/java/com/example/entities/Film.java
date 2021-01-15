@@ -20,7 +20,7 @@ import java.util.List;
  */
 @Entity
 @NamedQuery(name="Film.findAll", query="SELECT f FROM Film f")
-public class Film implements Serializable {
+public class Film extends EntityBase<Film> implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id

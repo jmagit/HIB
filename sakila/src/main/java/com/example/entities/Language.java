@@ -130,5 +130,10 @@ public class Language extends EntityBase<Actor> implements Serializable {
 
 		return filmsVO;
 	}
+	@Override
+	public String toString() {
+		return "Language [name=" + name + "]";
+	}
 
+	
 }
